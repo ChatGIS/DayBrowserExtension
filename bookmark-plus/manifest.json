@@ -1,0 +1,12 @@
+{
+    "name": "网址收集",
+    "version": "1.0.0",
+    "description": "网址快速收集，类似书签栏",
+    "manifest_version": 3,
+    "permissions": [
+        "tabs"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}
