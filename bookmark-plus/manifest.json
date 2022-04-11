@@ -4,7 +4,8 @@
     "description": "网址快速收集，类似书签栏",
     "manifest_version": 3,
     "permissions": [
-        "tabs"
+        "tabs",
+        "storage"
     ],
     "action": {
         "default_popup": "popup.html"
