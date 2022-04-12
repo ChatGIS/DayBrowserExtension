@@ -7,26 +7,14 @@ async function getCurrentTab() {
   chrome.storage.sync.set({ "tips": "暂无提示信息" });
   return tab;
 }
-
-
 getCurrentTab()
 
 let formSubmitBtn = document.getElementById("formSubmit");
 let tipShow = document.getElementById("tip");
-
-
-chrome.storage.sync.get("tips", ({ tips }) => {
-  tipShow.innerHTML = tips;
-});
-
 let httpReq;
 
 // 保存按钮点击
 formSubmitBtn.addEventListener("click", () => {
-  formSubmit()
-});
-
-function formSubmit(){
   let formUrl = document.getElementById("form-url").value;
   let formName = document.getElementById("form-name").value;
   let formType = document.getElementById("form-type").value;
@@ -37,19 +25,16 @@ function formSubmit(){
     return false;
   }
 
-  
   let url = "http://localhost:3007/api/websites";
   console.log("点击"+httpReq.readyState);
-  httpReq.open('POST', url, false);
+  httpReq.open('POST', url, true);
   httpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   httpReq.onreadystatechange = getRes;
-  httpReq.send(`name=${encodeURIComponent(formName)}&url=${encodeURIComponent(formUrl)}`);
-  console.log("点击"+httpReq.readyState);
-}
+  httpReq.send(`name=${encodeURIComponent(formName)}&url=${encodeURIComponent(formUrl)}&type=${encodeURIComponent(formType)}`);
+});
 
+// 返回结果处理
 function getRes(){
-  console.log("响应"+httpReq.readyState);
-  
     if (httpReq.readyState === XMLHttpRequest.DONE) {
       let res = null;
       if(httpReq.responseText){
@@ -57,13 +42,11 @@ function getRes(){
       }
       
       if (res.meta.status === 201) {
-        let tips = `<span style="color: green">${res.meta.msg}</span>`
-        chrome.storage.sync.set({ tips });
+        tipShow.innerHTML = `<span style="color: green">${res.meta.msg}</span>`;
       } else if(res.meta.status === 422){
-        let tips = `<span style="color: red">${res.meta.msg}</span>`
-        chrome.storage.sync.set({ tips });
+        tipShow.innerHTML = `<span style="color: yellow;background-color: black;">${res.meta.msg}</span>`;
       }else {
-        alert('状态码' + httpReq.status);
+        aletipShow.innerHTML = `<span style="color: red">${res.meta.msg}</span>`;
       }
     }
 }
