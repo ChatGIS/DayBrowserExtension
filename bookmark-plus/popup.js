@@ -27,6 +27,8 @@ formSubmitBtn.addEventListener("click", () => {
 
   let url = "http://localhost:3007/api/websites";
   console.log("点击"+httpReq.readyState);
+  // 设置响应类型为json，返回结果不再需要JSON.parse()
+  httpReq.responseType = "json";
   httpReq.open('POST', url, true);
   httpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   httpReq.onreadystatechange = getRes;
@@ -36,11 +38,13 @@ formSubmitBtn.addEventListener("click", () => {
 // 返回结果处理
 function getRes(){
     if (httpReq.readyState === XMLHttpRequest.DONE) {
-      let res = null;
-      if(httpReq.responseText){
-        res = JSON.parse(httpReq.responseText)
-      }
+      // let res = null;
+      // 只有XMLHttpRequest是""或者"text"的时候，才有responseText属性
+      // if(httpReq.responseText){
+      //   res = JSON.parse(httpReq.responseText)
+      // }
       
+      // let res = httpReq.response;
       if (res.meta.status === 201) {
         tipShow.innerHTML = `<span style="color: green">${res.meta.msg}</span>`;
       } else if(res.meta.status === 422){
