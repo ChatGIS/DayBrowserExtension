@@ -5,10 +5,12 @@
     "manifest_version": 3,
     "permissions": [
         "tabs",
-        "storage"
+        "storage",
+        "contextMenus"
     ],
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_title": "Click Me"
     },
     "icons": {
         "16": "/images/bookmark16.png",
@@ -16,5 +18,8 @@
         "48": "/images/bookmark48.png",
         "64": "/images/bookmark64.png",
         "128": "/images/bookmark128.png"
+    },
+    "background": {
+        "service_worker": "background.js"
     }
 }

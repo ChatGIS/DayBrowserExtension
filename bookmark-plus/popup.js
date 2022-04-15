@@ -44,7 +44,7 @@ function getRes(){
       //   res = JSON.parse(httpReq.responseText)
       // }
       
-      // let res = httpReq.response;
+      let res = httpReq.response;
       if (res.meta.status === 201) {
         tipShow.innerHTML = `<span style="color: green">${res.meta.msg}</span>`;
       } else if(res.meta.status === 422){
