@@ -4,6 +4,7 @@ async function getCurrentTab() {
   let [tab] = await chrome.tabs.query(queryOptions);
   document.getElementsByName("name")[0].value=tab.title;
   document.getElementsByName("url")[0].value=tab.url;
+  document.getElementById("form-favicon").value = tab.favIconUrl;
   chrome.storage.sync.set({ "tips": "暂无提示信息" });
   return tab;
 }
@@ -17,6 +18,7 @@ let httpReq;
 formSubmitBtn.addEventListener("click", () => {
   let formUrl = document.getElementById("form-url").value;
   let formName = document.getElementById("form-name").value;
+  let formFavicon = document.getElementById("form-favicon").value;
   let formType = document.getElementById("form-type").value;
 
   httpReq = new XMLHttpRequest();
@@ -32,7 +34,7 @@ formSubmitBtn.addEventListener("click", () => {
   httpReq.open('POST', url, true);
   httpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   httpReq.onreadystatechange = getRes;
-  httpReq.send(`name=${encodeURIComponent(formName)}&url=${encodeURIComponent(formUrl)}&type=${encodeURIComponent(formType)}`);
+  httpReq.send(`name=${encodeURIComponent(formName)}&url=${encodeURIComponent(formUrl)}&favicon=${encodeURIComponent(formFavicon)}&type=${encodeURIComponent(formType)}`);
 });
 
 // 返回结果处理
