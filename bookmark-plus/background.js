@@ -34,7 +34,7 @@ chrome.contextMenus.onClicked.addListener((info) => {
         if(data.meta.status == "201"){
             setBadgeTextAndColor("Ok", "green");
         } else if(data.meta.status == "422"){
-            setBadgeTextAndColor("Have", "yellow");
+            setBadgeTextAndColor("Have", "#FFCC00");
         } else {
             setBadgeTextAndColor("Err", "red");
         }

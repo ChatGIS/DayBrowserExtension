@@ -1,4 +1,4 @@
-
+// 获取当前tab页标题、url、图标信息
 async function getCurrentTab() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
@@ -9,6 +9,37 @@ async function getCurrentTab() {
   return tab;
 }
 getCurrentTab()
+
+// 获取网站类型
+function getTypes(){
+  let xhr = new XMLHttpRequest();
+  let url = "http://localhost:3007/api/dictionary";
+  // 设置响应类型为json，返回结果不再需要JSON.parse()
+  xhr.responseType = "json";
+  xhr.open('GET', url);
+  xhr.send();
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState === XMLHttpRequest.DONE) {   
+      let res = xhr.response;
+      if(res.meta.status === 200){
+        var select=document.getElementById("form-type"); 
+        const dicts = res.data.dicts;
+        for(var i=0;i<dicts.length;i++){
+            var option=document.createElement("option");
+            option.setAttribute("value", dicts[i].id);
+            option.appendChild(document.createTextNode(dicts[i].name));
+            select.appendChild(option);
+        }
+        select.options[0].selected=true;
+        tipShow.innerHTML = `<span style="color: green">${res.meta.msg}</span>`;
+      }else {
+        aletipShow.innerHTML = `<span style="color: red">${res.meta.msg}</span>`;
+      }
+    }
+  };
+}
+getTypes()
+
 
 let formSubmitBtn = document.getElementById("formSubmit");
 let tipShow = document.getElementById("tip");
@@ -50,7 +81,7 @@ function getRes(){
       if (res.meta.status === 201) {
         tipShow.innerHTML = `<span style="color: green">${res.meta.msg}</span>`;
       } else if(res.meta.status === 422){
-        tipShow.innerHTML = `<span style="color: yellow;background-color: black;">${res.meta.msg}</span>`;
+        tipShow.innerHTML = `<span style="color: #FFCC00;">${res.meta.msg}</span>`;
       }else {
         aletipShow.innerHTML = `<span style="color: red">${res.meta.msg}</span>`;
       }
